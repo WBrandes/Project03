@@ -19,15 +19,17 @@ import java.util.Scanner;
 
 public class Order implements Comparable<Order>
 {
-    private ArrayList<Food> items; // The items ordered
+    private ArrayList<Food> items = new ArrayList<>(); // The items ordered
     private Address address;       // Location where the order is to be delivered
+    
     private int time;              // The time the order was ordered
-
-    private static int addresses;    // The number of addresses being simulated
-    private static int minTimeDiff;  // The minimum time difference between orders for the simulation
+    
+    private static int addresses = 5;    // The number of addresses being simulated
+    private static int minTimeDiff=10;  // The minimum time difference between orders for the simulation
     private static int minTime;      // The minimum time the order can be ordered at
     private static int maxTime;      // The maximum time the order can be ordered at
     private static int lastTime = 0; // The time the last order was ordered at
+    private boolean isDelivered;    // wheter order is delivered or not yet (under processing): default is false
 
     public Order(Address address, int time, ArrayList<Food> items)
     {
@@ -54,12 +56,23 @@ public class Order implements Comparable<Order>
         if (items.isEmpty())
             items.add(new Food("Sandwich"));
     }
-
+    
     // Creates a random order
     protected Order()
     {
-        this(new Address());
+        // No since Line !!!
+        //this(new Address());
     }
+
+    public boolean isIsDelivered() {
+        return isDelivered;
+    }
+
+    public void setIsDelivered(boolean isDelivered) {
+        this.isDelivered = isDelivered;
+    }
+
+   
 
     /*
      * Returns a random time in military form in the range 10 AM - 7 PM (1000-1900) which gives us 600 minutes to work with.
@@ -74,6 +87,7 @@ public class Order implements Comparable<Order>
             lastTime = 1000;
             return lastTime;
         }
+        
         int increment = (new Random()).nextInt((600 / normalizer) - min) + min; // Normalize the 600 minutes to the increment needed
         int time = (int)(lastTime / 100.0) * 60 + (lastTime % 100) + increment;    // Convert time sum to minutes
         lastTime = ((int)(time / 60.0) * 100) + time % 60;                         // Convert time to military time
@@ -146,7 +160,7 @@ public class Order implements Comparable<Order>
     @Override
     public String toString()
     {
-        return address.getHouseNumber() + " " + address.getDirection() + " " + address.getStreetNumber() + " at " + time + ((items.size() > 0) ? ("; Items ordered: " + getItemsAsString()) : "");
+        return address.getHouseNum() + " " + address.directionToString() + " " + address.getStreetNum() + " at " + time + ((items.size() > 0) ? ("; Items ordered: " + getItemsAsString()) : "");
     }
 
     public String toStringSimple()
@@ -202,7 +216,13 @@ public class Order implements Comparable<Order>
                 String line = scanner.nextLine();
                 String[] values = line.split(" ");
                 String[] address = values[0].split(",");
-                Address address2 = new Address(Integer.parseInt(address[0]), Integer.parseInt(address[1]));
+                //Address address2 = new Address(Integer.parseInt(address[0]), Integer.parseInt(address[1]));
+                
+                Address address2 = new Address(Integer.parseInt(values[0]), 
+                        values[1].equals("East"), 
+                        Integer.parseInt(values[2]), 
+                        Integer.parseInt(values[3]));
+                
                 ArrayList<Food> items = new ArrayList<>();
                 if (values.length > 2)
                 {

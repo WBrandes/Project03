@@ -1,6 +1,5 @@
 package Simulation;
 
-
 public class Truck
 {
     private double x, y;
@@ -68,7 +67,3 @@ public class Truck
     }
 }
 
-enum Direction
-{
-    NORTH, EAST, SOUTH, WEST
-}

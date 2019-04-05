@@ -1,47 +1,70 @@
 package Simulation;
 
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.PriorityQueue;
+import java.util.Timer;
+
+import javax.swing.JFrame;
+
 
 public class Main
 {
+	
+	public static int streetCount = 10;
     public static final String FILE = "AddressList100.txt";
+    
+    
 
     public static void main(String[] args)
     {
-        // Write 100 random addresses to a file
-        AddressIO.writeAddresses(FILE, 100);
+        
+    	JFrame window = new JFrame();
+    	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	
+    	double guiScale = 0.5;
+    	
+    	window.getContentPane().setPreferredSize(new Dimension((int) (guiScale * 100 * streetCount), (int) (guiScale * 100 * streetCount)));
+    	window.add(new NeighborhoodGUI(guiScale, streetCount));
+    	
+    	window.pack();
+    	window.setVisible(true);
 
         // Read the addresses from the file and place them in a PriorityQueue
         PriorityQueue<Address> addresses = AddressIO.readAddresses(FILE);
-
-        // Draw the neighborhood with the addresses and distribution center shown
-        Neighborhood neighborhood = new Neighborhood();
-        neighborhood.generateNeighborhood(addresses);
-        // neighborhood.printNeighborhood();
-
-        // Put the addresses into a list
-        Iterator<Address> iterator = addresses.iterator();
-        ArrayList<Address> addressList = new ArrayList<>();
-        while (iterator.hasNext())
-            addressList.add(iterator.next());
-        // Add the distribution center as the final destination
-        addressList.add(new Address(Address.DISTRIBUTION_HOUSENUM, Address.SOUTH, Address.DISTRIBUTION_STREETNUM, 1900));
-
-        // Create the route the truck will follow and calculate the length of the trip
-        try
-        {
-            neighborhood.addRoute(addressList);
-        }
-        catch (UTurnException ute)
-        {
-            System.out.println("UTurnException occurred.");
-        }
-        System.out.println("Route length: " + neighborhood.getRouteLength());
         
-        Neighborhood.drawNeighborhood(addresses);
+        Truck truck = new Truck(50, 50, false, Direction.NORTH);
+        
+        // place orderes for each address
+        PriorityQueue<Order> orders = new PriorityQueue<Order>();
+
+        Iterator<Address> it = addresses.iterator();
+        while (it.hasNext()) {
+            Address addr = (Address) it.next();
+            
+            Order newOrder = new Order(addr);
+            orders.add(newOrder);
+        }
+        
+        // list of truck commands to find
+        ArrayList<Command> truckCommands = new ArrayList<>();
+        
+        NormalRouter router = new NormalRouter();
+        //router.calculateRoute(truck, orders);
+        
+        int totalTime = 0;
+        for(Command c : router.calculateRoute(truck, orders)) {
+        	
+        	System.out.println(c.toString());
+        	totalTime += c.getTime();
+        	
+        }
+        System.out.println("Total Units of Time: " + totalTime);
+        
+        
     }
+
 }
 
