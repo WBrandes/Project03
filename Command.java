@@ -1,3 +1,5 @@
+
+
 enum Function
 {
     START, 
@@ -12,7 +14,8 @@ public class Command {
      
     private int time;
     private Function order;
-    private boolean isOrderProcessced;
+    private boolean isProcessed;
+    private boolean delivered;
 
     public Command(int time, Function order) {
         this.time = time;
@@ -35,20 +38,24 @@ public class Command {
         this.order = order;
     }
 
-    public boolean isIsOrderProcessced() {
-        return isOrderProcessced;
+    public boolean isDelivered() {
+        return delivered;
     }
 
-    public void setIsOrderProcessced(boolean isOrderProcessced) {
-        this.isOrderProcessced = isOrderProcessced;
+    public void setDelivered(boolean delivered) {
+        this.delivered = delivered;
+    }
+
+    public boolean isIsProcessed() {
+        return isProcessed;
+    }
+
+    public void setIsProcessed(boolean isProcessed) {
+        this.isProcessed = isProcessed;
     }
     
-    @Override
-    public String toString() {
-    	
-    	return "Command: " + order + ", time: " + time + (isOrderProcessced ? ". An order is being delivered." : ""); 
-    	
-    }
+    
+   
     
     
     

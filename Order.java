@@ -5,6 +5,9 @@
  */
 
 
+
+
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -26,7 +29,8 @@ public class Order implements Comparable<Order>
     private static int minTime;      // The minimum time the order can be ordered at
     private static int maxTime;      // The maximum time the order can be ordered at
     private static int lastTime = 0; // The time the last order was ordered at
-    private boolean isDelivered;    // wheter order is delivered or not yet (under processing): default is false
+    private boolean processed;
+    private boolean isDelivered;   // order has been delivered or still
 
     public Order(Address address, int time, ArrayList<Food> items)
     {
@@ -61,13 +65,17 @@ public class Order implements Comparable<Order>
         //this(new Address());
     }
 
-    public boolean isIsDelivered() {
-        return isDelivered;
+    public boolean isProcessed() {
+        return processed;
     }
 
-    public void setIsDelivered(boolean isDelivered) {
-        this.isDelivered = isDelivered;
+    public void setProcessed(boolean processed) {
+        this.processed = processed;
     }
+
+
+    
+    
 
    
 
@@ -157,7 +165,7 @@ public class Order implements Comparable<Order>
     @Override
     public String toString()
     {
-        return address.getHouseNum() + " " + address.directionToString() + " " + address.getStreetNum() + " at " + time + ((items.size() > 0) ? ("; Items ordered: " + getItemsAsString()) : "");
+        return address.getX() + " " + address.directionToString() + " " + address.getY() + " at " + time + ((items.size() > 0) ? ("; Items ordered: " + getItemsAsString()) : "");
     }
 
     public String toStringSimple()
@@ -190,6 +198,16 @@ public class Order implements Comparable<Order>
         return 0;
          */
     }
+
+    public boolean isIsDelivered() {
+        return isDelivered;
+    }
+
+    public void setIsDelivered(boolean isDelivered) {
+        this.isDelivered = isDelivered;
+    }
+    
+    
 
     @Override
     public boolean equals(Object obj)

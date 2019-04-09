@@ -1,3 +1,5 @@
+
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -16,17 +18,17 @@ import java.util.Scanner;
 
 public class Neighborhood
 {
-    static final int MAP_HEIGHT = 900;
-    static final int MAP_WIDTH = 900;
+    static final int MAP_HEIGHT = 489;
+    static final int MAP_WIDTH = 501;
     static final int MARKER_SIZE = 5;
     static final int BLOCK_WIDTH = 45;
-    static final double RATIO_ADDRESSES_TO_MAP = MAP_WIDTH / 2000.0;
+    static final double RATIO_ADDRESSES_TO_MAP = MAP_WIDTH / 1110.0;
     public static ArrayList<Address> instructions = new ArrayList<>();
-    public static double truckX = (900 - MARKER_SIZE) * RATIO_ADDRESSES_TO_MAP;
-    public static double truckY = (910 - MARKER_SIZE) * RATIO_ADDRESSES_TO_MAP;
+    public static double truckX = (500 - MARKER_SIZE) * RATIO_ADDRESSES_TO_MAP;
+    public static double truckY = (510 - MARKER_SIZE) * RATIO_ADDRESSES_TO_MAP;
     public static Address currentTarget = null;
-    public static double targetX = 718.0;
-    public static double targetY = 722.0;
+    public static double targetX = 318.0;
+    public static double targetY = 322.0;
     private static double routeLength = 0;
     private static int truckFacing = 0; // direction truck is facing -- 0: any, 1: north, 2: east, 3: south, 4: west
 
@@ -78,10 +80,10 @@ public class Neighborhood
             {
                 String line = scanner.nextLine();
                 String address[] = line.split(" ");
-                int houseNum = Integer.parseInt(address[0]);
-                int streetNum = Integer.parseInt(address[2]);
+                int X = Integer.parseInt(address[0]);
+                int Y = Integer.parseInt(address[2]);
                 int time = Integer.parseInt(address[3]);
-                add(new Address(houseNum,address[1].compareTo("East") == 0, streetNum, time));
+                add(new Address(X,address[1].compareTo("East") == 0, Y, time));
             }
         }
         catch (IOException e)
@@ -112,9 +114,9 @@ public class Neighborhood
     {
         // Location of an address, represented as "x"
         if (!ad.isDirection())
-            grid[ad.getHouseNum()/10][ad.getStreetNum()*10] = "x ";
+            grid[ad.getX()/10][ad.getY()*10] = "x ";
         else
-            grid[ad.getStreetNum()*10][ad.getHouseNum()/10] = "x ";
+            grid[ad.getY()*10][ad.getX()/10] = "x ";
     }
 
     public void printNeighborhood()
@@ -135,14 +137,14 @@ public class Neighborhood
                 super.paintComponent(g);
                 g.setColor(Color.BLUE);
                 // draw streets
-                for (int x = 0; x < 19; x++)
-                    for (int y = 0; y < 19; y++)
+                for (int x = 0; x < 10; x++)
+                    for (int y = 0; y < 10; y++)
                         g.drawRect(BLOCK_WIDTH * x, BLOCK_WIDTH * y, BLOCK_WIDTH, BLOCK_WIDTH);
 
                 // draw distribution center
                 g.setColor(Color.BLUE);
-                double x = Address.DISTRIBUTION_STREETNUM * 100.0;
-                double y = Address.DISTRIBUTION_HOUSENUM;
+                double x = Address.DISTRIBUTION_Y * 100.0;
+                double y = Address.DISTRIBUTION_X;
                 g.fillRect((int)(RATIO_ADDRESSES_TO_MAP*(x - MARKER_SIZE)), (int)(RATIO_ADDRESSES_TO_MAP*(y - MARKER_SIZE)), MARKER_SIZE, MARKER_SIZE);
 
                 // draw deliveries
@@ -151,8 +153,8 @@ public class Neighborhood
                 while (iterator.hasNext())
                 {
                     Address address = iterator.next();
-                    x = (address.isDirection()) ? address.getHouseNum() : address.getStreetNum() * 100;
-                    y = (!address.isDirection()) ? address.getHouseNum() : address.getStreetNum() * 100;
+                    x = (address.isDirection()) ? address.getX() : address.getY() * 100;
+                    y = (!address.isDirection()) ? address.getX() : address.getY() * 100;
                     g.fillOval((int)(RATIO_ADDRESSES_TO_MAP*(x - MARKER_SIZE)), (int)(RATIO_ADDRESSES_TO_MAP*(y - MARKER_SIZE)), MARKER_SIZE, MARKER_SIZE);
 
                 }
@@ -169,8 +171,8 @@ public class Neighborhood
         	
         	currentTarget = instructions.get(0);
         	instructions.remove(0);
-        	double x = (currentTarget.isDirection()) ? currentTarget.getHouseNum() : currentTarget.getStreetNum() * 100;
-            double y = (!currentTarget.isDirection()) ? currentTarget.getHouseNum() : currentTarget.getStreetNum() * 100;
+        	double x = (currentTarget.isDirection()) ? currentTarget.getX() : currentTarget.getY() * 100;
+            double y = (!currentTarget.isDirection()) ? currentTarget.getX() : currentTarget.getY() * 100;
             targetX = (int)(RATIO_ADDRESSES_TO_MAP*(x - MARKER_SIZE));
             targetY = (int)(RATIO_ADDRESSES_TO_MAP*(y - MARKER_SIZE));
             
@@ -203,8 +205,8 @@ public class Neighborhood
                     	currentTarget = instructions.get(0);
                     	instructions.remove(0);
                     	
-                    	double x = (currentTarget.isDirection()) ? currentTarget.getHouseNum() : currentTarget.getStreetNum() * 100;
-                        double y = (!currentTarget.isDirection()) ? currentTarget.getHouseNum() : currentTarget.getStreetNum() * 100;
+                    	double x = (currentTarget.isDirection()) ? currentTarget.getX() : currentTarget.getY() * 100;
+                        double y = (!currentTarget.isDirection()) ? currentTarget.getX() : currentTarget.getY() * 100;
                         targetX = (int)(RATIO_ADDRESSES_TO_MAP*(x - MARKER_SIZE));
                         targetY = (int)(RATIO_ADDRESSES_TO_MAP*(y - MARKER_SIZE));
 //                        System.out.println(currentTarget.toString());
@@ -248,7 +250,7 @@ public class Neighborhood
         routeLength = 0;
 
         // start at the distribution center at 10:00 AM
-        Address truckLocation = new Address(Address.DISTRIBUTION_HOUSENUM, Address.SOUTH, Address.DISTRIBUTION_STREETNUM, 1000);
+        Address truckLocation = new Address(Address.DISTRIBUTION_X, Address.SOUTH, Address.DISTRIBUTION_Y, 1000);
         Iterator<Address> iterator = addresses.iterator();
         while (iterator.hasNext())
         {
@@ -256,20 +258,20 @@ public class Neighborhood
             int time = address.getTime();
             while (!(address.equals(truckLocation)))
             {
-                int x1 = (address.isDirection()) ? address.getHouseNum() : address.getStreetNum() * 100;
-                int y1 = (!address.isDirection()) ? address.getHouseNum() : address.getStreetNum() * 100;
-                int x2 = (truckLocation.isDirection()) ? truckLocation.getHouseNum() : truckLocation.getStreetNum() * 100;
-                int y2 = (!truckLocation.isDirection()) ? truckLocation.getHouseNum() : truckLocation.getStreetNum() * 100;
+                int x1 = (address.isDirection()) ? address.getX() : address.getY() * 100;
+                int y1 = (!address.isDirection()) ? address.getX() : address.getY() * 100;
+                int x2 = (truckLocation.isDirection()) ? truckLocation.getX() : truckLocation.getY() * 100;
+                int y2 = (!truckLocation.isDirection()) ? truckLocation.getX() : truckLocation.getY() * 100;
 
                 boolean sameDirection = address.isDirection() == truckLocation.isDirection(); // Same direction streets
-                boolean sameStreetNum = address.getStreetNum() == truckLocation.getStreetNum(); // Same street number
+                boolean sameY = address.getY() == truckLocation.getY(); // Same street number
                 boolean truckOnSouth = x2 % 100 == 0; // The truck is on a southern street
                 boolean truckOnEast = y2 % 100 == 0; // The truck is on an eastern street
 
                 // The truck can get to the address in two or less moves (excluding the moves necessary to avoid U-turns)
-                if ((truckOnEast && truckOnSouth) || !sameDirection || sameStreetNum)
+                if ((truckOnEast && truckOnSouth) || !sameDirection || sameY)
                 {
-                    if (y1 != y2 && (!truckOnEast || truckOnSouth) && ((!truckOnSouth || sameStreetNum) || address.isDirection()))
+                    if (y1 != y2 && (!truckOnEast || truckOnSouth) && ((!truckOnSouth || sameY) || address.isDirection()))
                     {
                         Address handleUturn = handleUturn(x2, y2, x2, y1, x1, y1, time);
                         if (!handleUturn.equals(new Address(-10, -10, time)))

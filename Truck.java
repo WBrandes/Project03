@@ -1,10 +1,13 @@
+
+
+
 public class Truck
 {
     private double x, y;
     private boolean moving;
     private Direction direction;
 
-    Truck(int x, int y, boolean moving,  Direction direction)
+    Truck(double x, double y, boolean moving,  Direction direction)
     {
         this.x = x;
         this.y = y;
@@ -12,7 +15,7 @@ public class Truck
         this.direction = direction;
     }
 
-    Truck(int x, int y)
+    Truck(double x, double y)
     {
         this(x, y, false, null);
     }
@@ -35,6 +38,11 @@ public class Truck
     public boolean isMoving()
     {
         return moving;
+    }
+    
+    public void isMoving(boolean m)
+    {
+        moving = m;
     }
 
     public Direction getDirection()
@@ -62,6 +70,10 @@ public class Truck
 
     {
         this.direction = direction;
+    }
+
+    void proccessCommand(Command command) {
+        
     }
 }
 
