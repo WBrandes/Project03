@@ -18,8 +18,8 @@ public class RouteStrategy1 implements Route{
             Order ord = (Order) it.next();
             Address destination = ord.getAddress();
             
-            int houseNum = destination.getHouseNum();
-            int streetNm = destination.getStreetNum();
+            int houseNum = destination.getX();
+            int streetNm = destination.getY();
             
             //truck location is at 510 East 5th Street 
             
