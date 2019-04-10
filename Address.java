@@ -1,3 +1,4 @@
+package Simulation;
 
 
 import java.util.Random;
@@ -25,6 +26,24 @@ public class Address implements Comparable<Address>
         time = getRandomTime(numAddresses, MINIMUM_TIME_DIFFERENCE);
     }
 
+    
+    protected Address(int houseNum, int streetNum)
+    {
+        if (houseNum % 100 == 0)
+        {
+            direction = SOUTH;
+            X = streetNum;
+            Y = houseNum / 100;
+        }
+        else
+        {
+            direction = EAST;
+            X = houseNum;
+            Y = streetNum / 100;
+        }
+    }
+    
+
     protected Address(int X, boolean direction, int Y, int time)
     {
         if(X >= 0 && X < 1000)
@@ -41,19 +60,19 @@ public class Address implements Comparable<Address>
         this.time = time;
     }
 
-    protected Address(int x, int y, int time)
+    protected Address(int houseNum, int streetNum, int time)
     {
-        if (x % 100 == 0)
+        if (houseNum % 100 == 0)
         {
             direction = SOUTH;
-            X = y;
-            Y = x / 100;
+            X = streetNum;
+            Y = houseNum / 100;
         }
         else
         {
             direction = EAST;
-            X = x;
-            Y = y / 100;
+            X = houseNum;
+            Y = streetNum / 100;
         }
         this.time = time;
     }

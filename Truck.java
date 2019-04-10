@@ -1,4 +1,14 @@
+package Simulation;
 
+import java.util.Random;
+
+enum Direction
+{
+    NORTH, 
+    EAST, 
+    SOUTH, 
+    WEST
+}
 
 
 public class Truck
@@ -73,7 +83,56 @@ public class Truck
     }
 
     void proccessCommand(Command command) {
-        
+        switch (command.getOrder()) {
+            case START:
+                moving = true;
+                break;
+            case STOP:
+                moving = false;
+                break;
+            case TURN_LEFT:
+                
+                switch (direction) {
+                    case SOUTH:
+                        direction = Direction.EAST;
+                        break;
+                    case NORTH:
+                        direction = Direction.WEST;
+                        break;
+                    case EAST:
+                        direction = Direction.NORTH;
+                        break;
+                    case WEST:
+                        direction = Direction.SOUTH;
+                        break;
+                }
+                
+                
+                break;
+            case TURN_RIGHT:
+
+                switch (direction) {
+                    case SOUTH:
+                        direction = Direction.WEST;
+                        break;
+                    case NORTH:
+                        direction = Direction.EAST;
+                        break;
+                    case EAST:
+                        direction = Direction.SOUTH;
+                        break;
+                    case WEST:
+                        direction = Direction.NORTH;
+                        break;
+                }
+                
+                
+                
+                break;
+            default:
+                break;
+        }
+
     }
 }
 
