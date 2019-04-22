@@ -1,4 +1,3 @@
-package Simulation;
 
 
 import java.util.Random;
@@ -26,24 +25,6 @@ public class Address implements Comparable<Address>
         time = getRandomTime(numAddresses, MINIMUM_TIME_DIFFERENCE);
     }
 
-    
-    protected Address(int houseNum, int streetNum)
-    {
-        if (houseNum % 100 == 0)
-        {
-            direction = SOUTH;
-            X = streetNum;
-            Y = houseNum / 100;
-        }
-        else
-        {
-            direction = EAST;
-            X = houseNum;
-            Y = streetNum / 100;
-        }
-    }
-    
-
     protected Address(int X, boolean direction, int Y, int time)
     {
         if(X >= 0 && X < 1000)
@@ -60,19 +41,19 @@ public class Address implements Comparable<Address>
         this.time = time;
     }
 
-    protected Address(int houseNum, int streetNum, int time)
+    protected Address(int x, int y, int time)
     {
-        if (houseNum % 100 == 0)
+        if (x % 100 == 0)
         {
             direction = SOUTH;
-            X = streetNum;
-            Y = houseNum / 100;
+            X = y;
+            Y = x / 100;
         }
         else
         {
             direction = EAST;
-            X = houseNum;
-            Y = streetNum / 100;
+            X = x;
+            Y = y / 100;
         }
         this.time = time;
     }
@@ -100,7 +81,7 @@ public class Address implements Comparable<Address>
      */
     public int getRandomTime(int normalizer, int min)
     {
-        // Random time based off the last time used
+        /*/ Random time based off the last time used
         if (lastTime == 0)
         {
             lastTime = 1000;
@@ -115,6 +96,7 @@ public class Address implements Comparable<Address>
             return 1900;
         }
         return lastTime;
+        */
 
         // Completely random time
         /*
@@ -124,6 +106,30 @@ public class Address implements Comparable<Address>
         int totalTime = hours + minutes;
         return (totalTime >= 1900) ? 1900 : totalTime;
         */
+        
+        
+        // we dont need normalizer or min 
+        // to generate rondom Time will use the simple way,
+        // gerenrate rondom time(hh:mm:ss) but in seconds, and then will parse it to hh:mm:ss
+        
+        // time betwenn 10am to 7pm => convert that to seconds 10 means 3600seconds
+        // 7pm or 19h means 68400
+        // so its easy now to generate rondom seconds betwenn these to numbers
+        // then will parse seconds to hours minutes and seconds
+        Random rand = new Random();
+        int randomTimeInSeconds = rand.nextInt(68400 + 1 - 36000) + 36000;
+        
+        
+        int seconds = randomTimeInSeconds;
+        int sec = seconds % 60;
+        int hrs = seconds / 60;
+        int mn = hrs % 60;
+        hrs = hrs / 60;
+        
+        
+        lastTime = hrs*10000+ mn*100+sec;
+        
+        return lastTime;
     }
 
     // For normal looking time

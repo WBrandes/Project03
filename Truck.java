@@ -1,21 +1,13 @@
-package Simulation;
-
-import java.util.Random;
-
-enum Direction
-{
-    NORTH, 
-    EAST, 
-    SOUTH, 
-    WEST
-}
 
 
-public class Truck
+
+public class Truck 
 {
     private double x, y;
     private boolean moving;
     private Direction direction;
+    private int truckSpeed= 30;  // 30mph
+    private String time; // truck time
 
     Truck(double x, double y, boolean moving,  Direction direction)
     {
@@ -24,6 +16,8 @@ public class Truck
         this.moving = moving;
         this.direction = direction;
     }
+    
+    
 
     Truck(double x, double y)
     {
@@ -34,6 +28,16 @@ public class Truck
     {
        this(0, 0);
     }
+
+    public int getTruckSpeed() {
+        return truckSpeed;
+    }
+
+    public void setTruckSpeed(int truckSpeed) {
+        this.truckSpeed = truckSpeed;
+    }
+    
+    
 
     public double getX()
     {
@@ -82,7 +86,18 @@ public class Truck
         this.direction = direction;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+    
+    
+
     void proccessCommand(Command command) {
+        
         switch (command.getOrder()) {
             case START:
                 moving = true;
