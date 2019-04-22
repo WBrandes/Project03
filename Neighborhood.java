@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
-public class Neighborhood
+public class Neighborhood implements Observer
 {
     static final int MAP_HEIGHT = 489;
     static final int MAP_WIDTH = 501;
@@ -31,7 +31,7 @@ public class Neighborhood
     public static double targetY = 322.0;
     private static double routeLength = 0;
     private static int truckFacing = 0; // direction truck is facing -- 0: any, 1: north, 2: east, 3: south, 4: west
-
+    
     private String[][] grid;
 
     public Neighborhood()
@@ -446,6 +446,16 @@ public class Neighborhood
         instructions.add(ret);
         return ret;
     }
+
+   
+    @Override
+    public void update(Message m) {
+        
+        System.out.println(m.getMessageContent());
+    }
+   
+
+    
 }
 
 class UTurnException extends Exception
