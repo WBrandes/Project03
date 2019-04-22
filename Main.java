@@ -38,9 +38,12 @@ public class Main extends TimerTask
         timer.schedule(new Main(), 0,timeInMiliSeconds);
         newTruck = new Truck(200.0, 200.0);
         
+        
+        
+        
                 
         // Write 100 random addresses to a file
-        //AddressIO.writeAddresses(FILE, 100);
+        AddressIO.writeAddresses(FILE, 100);
 
         // Read the addresses from the file and place them in a PriorityQueue
         PriorityQueue<Address> addresses = AddressIO.readAddresses(FILE);
@@ -67,6 +70,17 @@ public class Main extends TimerTask
         neighborhood.generateNeighborhood(addresses);
         // neighborhood.printNeighborhood();
 
+        
+        Trucks trucks = new Trucks();
+        Orders orders = new Orders();
+        
+        // attach  all trucks used
+        trucks.register(neighborhood);
+        orders.register(neighborhood);
+        
+        trucks.notifyObservers(new Message("Truck started"));
+        
+        
         // Put the addresses into a list
         Iterator<Address> iterator = addresses.iterator();
         ArrayList<Address> addressList = new ArrayList<>();
