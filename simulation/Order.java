@@ -1,5 +1,5 @@
-/*
- * The Order class is has an address value, time, and list of items ordered. The static values addresses, minTimeDiff,
+package simulation;/*
+ * The simulation.Order class is has an address value, time, and list of items ordered. The static values addresses, minTimeDiff,
  * minTime, and maxTime are values set by our config file for different calculations. lastTime allows us to keep track
  * of the last time used for our next random time calculation.
  */
@@ -62,7 +62,7 @@ public class Order implements Comparable<Order>
     protected Order()
     {
         // No since Line !!!
-        //this(new Address());
+        //this(new simulation.Address());
     }
 
     public boolean isProcessed() {
@@ -186,7 +186,7 @@ public class Order implements Comparable<Order>
 
         // Comparable by distance from distribution center
         /*
-        Address distCenter = new Address(DISTRIBUTION_HOUSENUM, SOUTH, DISTRIBUTION_STREETNUM);
+        simulation.Address distCenter = new simulation.Address(DISTRIBUTION_HOUSENUM, SOUTH, DISTRIBUTION_STREETNUM);
         double distanceToDC = distanceTo(distCenter);
         double distanceToDCfromO = o.distanceTo(distCenter);
         if (distanceToDC < distanceToDCfromO)
@@ -231,7 +231,7 @@ public class Order implements Comparable<Order>
                 String line = scanner.nextLine();
                 String[] values = line.split(" ");
                 String[] address = values[0].split(",");
-                //Address address2 = new Address(Integer.parseInt(address[0]), Integer.parseInt(address[1]));
+                //simulation.Address address2 = new simulation.Address(Integer.parseInt(address[0]), Integer.parseInt(address[1]));
                 
                 Address address2 = new Address(Integer.parseInt(values[0]), 
                         values[1].equals("East"), 
@@ -253,7 +253,7 @@ public class Order implements Comparable<Order>
         }
         catch (Exception e)
         {
-            System.out.println("Error in creation of Address: " + e);
+            System.out.println("Error in creation of simulation.Address: " + e);
         }
 
         return orders;

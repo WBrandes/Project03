@@ -1,7 +1,8 @@
+package simulation;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 
 public class Orders implements Observable{
@@ -15,18 +16,19 @@ public class Orders implements Observable{
     public Orders() {
         observers = new ArrayList<>();
     }
-    
-    
-    
+
+
 
     @Override
     public void register(Observer obs) {
         if (obs == null) {
-            throw new NullPointerException("Null Observer");
+            throw new NullPointerException("Null simulation.Observer");
         }
             if (!observers.contains(obs)) {
                 observers.add(obs);
+                System.out.println();
             }
+
         
     }
 
@@ -42,5 +44,11 @@ public class Orders implements Observable{
             o.update(m);
         }
     }
-    
+
+    @Override
+    public String toString() {
+        return "Orders{" +
+                "observers=" + observers +
+                '}';
+    }
 }

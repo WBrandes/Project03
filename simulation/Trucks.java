@@ -1,6 +1,6 @@
+package simulation;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -22,7 +22,7 @@ public class Trucks implements Observable{
     @Override
     public void register(Observer obs) {
         if (obs == null) {
-            throw new NullPointerException("Null Observer");
+            throw new NullPointerException("Null simulation.Observer");
         }
             if (!observers.contains(obs)) {
                 observers.add(obs);

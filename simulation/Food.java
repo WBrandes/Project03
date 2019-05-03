@@ -1,5 +1,5 @@
-/*
- * The Food class handles the functionality of food in this simulation.
+package simulation;/*
+ * The simulation.Food class handles the functionality of food in this simulation.
  * It has one attribute and one method: a name and a method to get that name.
  */
 

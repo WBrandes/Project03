@@ -1,4 +1,4 @@
-
+package simulation;
 
 import java.util.Random;
 
@@ -194,7 +194,7 @@ public class Address implements Comparable<Address>
 
         // Comparable by distance from distribution center
         /*
-        Address distCenter = new Address(DISTRIBUTION_X, SOUTH, DISTRIBUTION_Y);
+        simulation.Address distCenter = new simulation.Address(DISTRIBUTION_X, SOUTH, DISTRIBUTION_Y);
         double distanceToDC = distanceTo(distCenter);
         double distanceToDCfromO = o.distanceTo(distCenter);
         if (distanceToDC < distanceToDCfromO)

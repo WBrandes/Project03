@@ -1,3 +1,5 @@
+package simulation;
+
 public class Message
 {
     final String messageContent;
