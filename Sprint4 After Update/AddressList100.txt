@@ -1,0 +1,10 @@
+320,100 1000 Pizza2,Chips2
+720,200 1003 Sandwich3,Chips2
+580,300 1056 Sandwich3
+200,680 1100 Sandwich1
+300,850 1106 Chips3
+700,230 1136 Pizza1,Sandwich1,Chips2
+300,370 1153 Sandwich1
+340,600 1204 Chips2
+1000,930 1246 Sandwich1
+570,600 1318 Pizza3
